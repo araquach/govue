@@ -1,8 +1,8 @@
 import Home from './components/home'
-import Test from './components/test'
+import About from './components/About'
 
 export const routes = [
     { path: '', component: Home },
-    { path: '/test', component: Test }
+    { path: '/about', component: About }
 ]
 
