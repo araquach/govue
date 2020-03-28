@@ -8,20 +8,23 @@
                 About
             </b-navbar-item>
             <b-navbar-dropdown label="More">
-                <b-navbar-item tag="router-link" to="/">
-                    Home
+                <b-navbar-item tag="router-link" to="/register">
+                    Register
                 </b-navbar-item>
-                <b-navbar-item tag="router-link" to="/about">
-                    About
+                <b-navbar-item tag="router-link" to="/login">
+                    Login
                 </b-navbar-item>
             </b-navbar-dropdown>
         </template>
         <template slot="end">
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <button tag="router-link" to="/" class="button is-primary">
+                    <router-link class="button is-warning" to="/register" >
+                        Register
+                    </router-link>
+                    <router-link class="button is-primary" to="/login">
                         Login
-                    </button>
+                    </router-link>
                 </div>
             </b-navbar-item>
         </template>
