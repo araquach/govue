@@ -1,11 +1,5 @@
 <template>
-    <b-navbar class="is-primary is-spaced">
-        <template slot="brand">
-            <b-navbar-item tag="router-link" :to="{ path: '/' }">
-                <h1 class="title is-4 has-text-white">GoVue</h1>
-                <img src="/dist/img/icons/home.svg" width="40">
-            </b-navbar-item>
-        </template>
+    <b-navbar class="is-transparent">
         <template slot="start">
             <b-navbar-item tag="router-link" to="/">
                 Home
@@ -25,8 +19,8 @@
         <template slot="end">
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <button tag="router-link" to="/" class="button is-warning">
-                        Button
+                    <button tag="router-link" to="/" class="button is-primary">
+                        Login
                     </button>
                 </div>
             </b-navbar-item>
