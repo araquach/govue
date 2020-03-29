@@ -22,9 +22,12 @@
                     <router-link class="button is-warning" to="/register" >
                         Register
                     </router-link>
-                    <router-link class="button is-primary" to="/login">
+                    <router-link v-if="!isLoggedIn" class="button is-primary" to="/login">
                         Login
                     </router-link>
+                    <button v-if="isLoggedIn" tag="router-link" @click="logout" class="button is-pending">
+                        Log out
+                    </button>
                 </div>
             </b-navbar-item>
         </template>
@@ -32,5 +35,17 @@
 </template>
 
 <script>
-
+    export default {
+        computed : {
+            isLoggedIn(){ return this.$store.getters.isLoggedIn}
+        },
+        methods: {
+            logout() {
+                this.$store.dispatch('logout')
+                    .then(() => {
+                        this.$router.push('/login')
+                    })
+            }
+        },
+    }
 </script>
