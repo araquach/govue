@@ -94,15 +94,6 @@ func main() {
 	http.ListenAndServe(":" + port, r)
 }
 
-func respondWithError(w http.ResponseWriter, status int, error Error) {
-	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(error)
-}
-
-func responseJSON(w http.ResponseWriter, data interface{}) {
-	json.NewEncoder(w).Encode(data)
-}
-
 func index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	if err := tplIndex.Execute(w, nil); err != nil {
@@ -149,24 +140,6 @@ func apiRegister(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	responseJSON(w, user)
-}
-
-func GenerateToken(user User) (string, error) {
-	var err error
-	secret := "secret"
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": user.Email,
-		"iss":   "course",
-	})
-
-	tokenString, err := token.SignedString([]byte(secret))
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return tokenString, nil
 }
 
 func apiLogin(w http.ResponseWriter, r *http.Request) {
@@ -216,6 +189,48 @@ func apiLogin(w http.ResponseWriter, r *http.Request) {
 	responseJSON(w, user)
 }
 
+func apiTest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	db := dbConn()
+	test := []Test{}
+	db.Find(&test)
+	db.Close()
+
+	json, err := json.Marshal(test)
+	if err != nil {
+		log.Println(err)
+	}
+	w.Write(json)
+}
+
+func respondWithError(w http.ResponseWriter, status int, error Error) {
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(error)
+}
+
+func responseJSON(w http.ResponseWriter, data interface{}) {
+	json.NewEncoder(w).Encode(data)
+}
+
+func GenerateToken(user User) (string, error) {
+	var err error
+	secret := "secret"
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"email": user.Email,
+		"iss":   "course",
+	})
+
+	tokenString, err := token.SignedString([]byte(secret))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return tokenString, nil
+}
+
 func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var errorObject Error
@@ -252,21 +267,4 @@ func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 	})
-}
-
-// api
-
-func apiTest(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	db := dbConn()
-	test := []Test{}
-	db.Find(&test)
-	db.Close()
-
-	json, err := json.Marshal(test)
-	if err != nil {
-		log.Println(err)
-	}
-	w.Write(json)
 }
