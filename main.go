@@ -76,8 +76,12 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", index).Methods("GET")
-	r.HandleFunc("/register", register).Methods("POST")
-	r.HandleFunc("/login", login).Methods("POST")
+	r.HandleFunc("/about", index).Methods("GET")
+	r.HandleFunc("/login", index).Methods("GET")
+
+	// api
+	r.HandleFunc("/api/register", apiRegister).Methods("POST")
+	r.HandleFunc("/api/login", apiLogin).Methods("POST")
 	r.HandleFunc("/api/test", TokenVerifyMiddleWare(apiTest)).Methods("GET")
 
 	// Styles
@@ -106,7 +110,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func register(w http.ResponseWriter, r *http.Request) {
+func apiRegister(w http.ResponseWriter, r *http.Request) {
 	var user User
 	var error Error
 
@@ -165,7 +169,7 @@ func GenerateToken(user User) (string, error) {
 	return tokenString, nil
 }
 
-func login(w http.ResponseWriter, r *http.Request) {
+func apiLogin(w http.ResponseWriter, r *http.Request) {
 	var user User
 	var error Error
 

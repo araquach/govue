@@ -31,7 +31,7 @@ const actions = {
     login ({commit}, user) {
         return new Promise((resolve, reject) => {
             commit('AUTH_REQUEST')
-            axios({url: '/login', data: user, method: 'POST' })
+            axios({url: '/api/login', data: user, method: 'POST' })
                 .then(resp => {
                     const token = resp.data.token
                     const user = resp.data
@@ -51,7 +51,7 @@ const actions = {
     register ({commit}, user) {
         return new Promise((resolve, reject) => {
             commit('AUTH_REQUEST')
-            axios({url: '/register', data: user, method: 'POST' })
+            axios({url: '/api/register', data: user, method: 'POST' })
                 .then(resp => {
                     const token = resp.data.token
                     const user = resp.data
