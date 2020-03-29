@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <form @submit.prevent="login">
-                    <div v-if="submitStatus !== 'OK'">
+                    <div>
                         <b-field label="Email Address"
                                  :type="{ 'is-danger': $v.email.$error }"
                                  :message="{'Email address is required' : !$v.email.required}">
@@ -30,9 +30,6 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="submitStatus === 'OK'">
-                        <p class="is-size-4">Login Successful</p>
-                    </div>
                 </form>
             </div>
         </div>
@@ -40,7 +37,7 @@
 </template>
 
 <script>
-    import {required} from 'vuelidate/lib/validators'
+    import {required, email} from 'vuelidate/lib/validators'
     export default {
         data() {
             return {
@@ -51,7 +48,7 @@
         },
 
         validations: {
-            email: { required },
+            email: { required, email },
             password: { required }
         },
 

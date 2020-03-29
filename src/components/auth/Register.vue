@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <form @submit.prevent="register">
-                    <div v-if="submitStatus !== 'OK'">
+                    <div>
                         <b-field label="Full Name"
                                  :type="{ 'is-danger': $v.name.$error }"
                                  :message="{'Full Name is required' : !$v.name.required}">
@@ -36,9 +36,6 @@
                                 <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Register</button>
                             </div>
                         </div>
-                    </div>
-                    <div v-if="submitStatus === 'OK'">
-                        <p class="is-size-4 has-text-white">New User Registered</p>
                     </div>
                 </form>
             </div>
