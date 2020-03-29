@@ -11,7 +11,7 @@
                     <div>
                         <b-field label="Email Address"
                                  :type="{ 'is-danger': $v.email.$error }"
-                                 :message="{'Email address is required' : !$v.email.required}">
+                                 :message="[{'Email address is required' : !$v.email.required}, {'Provide a valid email address' : !$v.email.email}]">
                             <b-input v-model.trim="$v.email.$model"
                                      placeholder="Email">
                             </b-input>
