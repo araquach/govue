@@ -85,15 +85,6 @@ func main() {
 	assetHandler = http.StripPrefix("/dist/", assetHandler)
 	r.PathPrefix("/dist/").Handler(assetHandler)
 
-	// JS
-	jsHandler := http.FileServer(http.Dir("./dist/"))
-	jsHandler = http.StripPrefix("/dist/", jsHandler)
-	r.PathPrefix("/public/js/").Handler(jsHandler)
-
-	//Images
-	imageHandler := http.FileServer(http.Dir("./public/images/"))
-	r.PathPrefix("/images/").Handler(http.StripPrefix("/images/", imageHandler))
-
 	log.Printf("Starting server on %s", port)
 
 	http.ListenAndServe(":" + port, r)

@@ -11,9 +11,11 @@ Vue.use(Buefy)
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 
+
 window.axios = require('axios')
 
 const router = new VueRouter({
+    mode: 'history',
     routes
 })
 
