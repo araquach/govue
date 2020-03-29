@@ -26,12 +26,12 @@
                         <br>
                         <div class="field">
                             <div class="control">
-                                <button class="button is-outlined is-white" type="submit" :disabled="submitStatus === 'PENDING'">Sign In</button>
+                                <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Sign In</button>
                             </div>
                         </div>
                     </div>
                     <div v-if="submitStatus === 'OK'">
-                        <p class="is-size-4 has-text-white">Login Successful</p>
+                        <p class="is-size-4">Login Successful</p>
                     </div>
                 </form>
             </div>
@@ -67,9 +67,7 @@
                         .then(response => {
                             this.submitStatus = 'OK'
                         })
-                        .then(setTimeout(() => {
-                            this.$router.push('/')
-                        }, 2000))
+                    this.$router.push('/')
                         .catch((e) => {
                             console.error(e)
                         })

@@ -26,7 +26,7 @@ type Error struct {
 
 type User struct {
 	ID        	uint       	`json:"id" gorm:"primary_key"`
-	Name 		string 		`json:"first_name"`
+	Name 		string 		`json:"name"`
 	Email 		string 		`json:"email" gorm:"unique_index"`
 	Password 	string 		`json:"password"`
 	IsAdmin		bool 		`json:"is_admin"`

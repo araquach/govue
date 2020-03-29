@@ -33,7 +33,7 @@
                         <br>
                         <div class="field">
                             <div class="control">
-                                <button class="button is-outlined is-white" type="submit" :disabled="submitStatus === 'PENDING'">Register</button>
+                                <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Register</button>
                             </div>
                         </div>
                     </div>
@@ -79,9 +79,7 @@
                         .then(response => {
                             this.submitStatus = 'OK'
                         })
-                        .then(setTimeout(() => {
-                            this.$router.push('/login')
-                        }, 1500))
+                    this.$router.push('/login')
                         .catch((e) => {
                             console.error(e)
                         })
