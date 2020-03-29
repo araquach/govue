@@ -76,9 +76,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", index).Methods("GET")
-	r.HandleFunc("/about", index).Methods("GET")
-	r.HandleFunc("/login", index).Methods("GET")
-	r.HandleFunc("/protected", index).Methods("GET")
+	r.HandleFunc(`/{[a-zA-Z0-9=\-\/]+}`, index).Methods("GET")
 
 	// api
 	r.HandleFunc("/api/register", apiRegister).Methods("POST")
