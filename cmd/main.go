@@ -54,8 +54,6 @@ func main() {
 	r.HandleFunc("/{name}", index)
 	r.HandleFunc("/", index).Methods("GET")
 
-
-
 	log.Printf("Starting server on %s", port)
 
 	http.ListenAndServe(":" + port, r)

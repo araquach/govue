@@ -1,6 +1,7 @@
 package main
 
 import (
+	"contra-design.com/govue/cmd/db"
 	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -43,8 +44,7 @@ func apiRegister(w http.ResponseWriter, r *http.Request) {
 
 	user.Password = string(hash)
 
-	db := dbConn()
-	db.Create(&user)
+	db.DB.Create(&user)
 
 	if err != nil {
 		error.Message = "Server error."
@@ -78,8 +78,7 @@ func apiLogin(w http.ResponseWriter, r *http.Request) {
 
 	password := user.Password
 
-	db := dbConn()
-	db.Where("email = ?", user.Email).First(&user)
+	db.DB.Where("email = ?", user.Email).First(&user)
 
 	hashedPassword := user.Password
 
@@ -108,10 +107,8 @@ func apiLogin(w http.ResponseWriter, r *http.Request) {
 func apiTest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	db := dbConn()
 	test := []Test{}
-	db.Find(&test)
-	db.Close()
+	db.DB.Find(&test)
 
 	json, err := json.Marshal(test)
 	if err != nil {
@@ -122,11 +119,17 @@ func apiTest(w http.ResponseWriter, r *http.Request) {
 
 func respondWithError(w http.ResponseWriter, status int, error Error) {
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(error)
+	err := json.NewEncoder(w).Encode(error)
+	if err != nil {
+		return
+	}
 }
 
 func responseJSON(w http.ResponseWriter, data interface{}) {
-	json.NewEncoder(w).Encode(data)
+	err := json.NewEncoder(w).Encode(data)
+	if err != nil {
+		return
+	}
 }
 
 func GenerateToken(user User) (string, error) {
@@ -148,7 +151,7 @@ func GenerateToken(user User) (string, error) {
 }
 
 func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		var errorObject Error
 		authHeader := r.Header.Get("Authorization")
 		bearerToken := strings.Split(authHeader, " ")
@@ -182,7 +185,7 @@ func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc {
 			respondWithError(w, http.StatusUnauthorized, errorObject)
 			return
 		}
-	})
+	}
 }
 
 
