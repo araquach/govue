@@ -32,6 +32,8 @@ func main() {
 	dsn := os.Getenv("DATABASE_URL")
 	db.DBInit(dsn)
 
+	db.Migrate()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set")

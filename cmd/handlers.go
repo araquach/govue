@@ -2,6 +2,7 @@ package main
 
 import (
 	"contra-design.com/govue/cmd/db"
+	"contra-design.com/govue/cmd/models"
 	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -19,7 +20,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func apiRegister(w http.ResponseWriter, r *http.Request) {
-	var user User
+	var user models.User
 	var error Error
 
 	json.NewDecoder(r.Body).Decode(&user)
@@ -59,7 +60,7 @@ func apiRegister(w http.ResponseWriter, r *http.Request) {
 }
 
 func apiLogin(w http.ResponseWriter, r *http.Request) {
-	var user User
+	var user models.User
 	var error Error
 
 	json.NewDecoder(r.Body).Decode(&user)
@@ -107,7 +108,7 @@ func apiLogin(w http.ResponseWriter, r *http.Request) {
 func apiTest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	test := []Test{}
+	test := []models.Test{}
 	db.DB.Find(&test)
 
 	json, err := json.Marshal(test)
@@ -132,7 +133,7 @@ func responseJSON(w http.ResponseWriter, data interface{}) {
 	}
 }
 
-func GenerateToken(user User) (string, error) {
+func GenerateToken(user models.User) (string, error) {
 	var err error
 	secret := "secret"
 
